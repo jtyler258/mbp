@@ -1,0 +1,58 @@
+scalar Time
+
+type Ingredient {
+  name: String!
+  quantity: Float!
+  units: String!
+}
+
+type Step {
+  title: String!
+  text: String!
+  ingredients: [String]
+}
+
+type Recipe {
+  id: ID!
+  title: String!
+  ingredients: [Ingredient!]!
+  steps: [Step!]!
+  created_at: Time!
+  updated_at: Time!
+}
+
+input CreateIngredientInput {
+  name: String!
+  quantity: Float!
+  units: String!
+}
+
+input CreateStepInput {
+  title: String!
+  text: String!
+  ingredients: [String]
+}
+
+input CreateRecipeInput {
+  title: String!
+  ingredients: [CreateIngredientInput!]!
+  steps: [CreateStepInput!]!
+}
+
+input UpdateRecipeInput {
+  id: ID!
+  title: String
+  ingredients: [CreateIngredientInput]
+  steps: [CreateStepInput]
+}
+
+type Query {
+  recipe(id: String!): Recipe!
+  recipes: [Recipe!]!
+}
+
+type Mutation {
+  createRecipe(input: CreateRecipeInput!): Recipe!
+  updateRecipe(input: UpdateRecipeInput!): Recipe!
+  deleteRecipe(id: String!): Recipe!
+}
