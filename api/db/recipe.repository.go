@@ -21,8 +21,8 @@ func NewRecipeRepository(database *Database) (*RecipeRepository) {
 	}
 }
 
-func (r *RecipeRepository) Insert(ctx *context.Context, doc *model.Recipe) (*model.Recipe, error) {
-	_, err := r.collection.InsertOne(*ctx, doc)
+func (r *RecipeRepository) Insert(ctx context.Context, doc *model.Recipe) (*model.Recipe, error) {
+	_, err := r.collection.InsertOne(ctx, doc)
 	if err != nil {
 		return nil, err
 	}
@@ -30,8 +30,8 @@ func (r *RecipeRepository) Insert(ctx *context.Context, doc *model.Recipe) (*mod
 	return doc, nil
 }
 
-func (r *RecipeRepository) Update(ctx *context.Context, doc *model.Recipe) (*model.Recipe, error) {
-	_, err := r.collection.UpdateByID(*ctx, doc.ID, bson.D{{"$set", doc}})
+func (r *RecipeRepository) Update(ctx context.Context, doc *model.Recipe) (*model.Recipe, error) {
+	_, err := r.collection.UpdateByID(ctx, doc.ID, bson.D{{"$set", doc}})
 	if err != nil {
 		return nil, err
 	}
@@ -39,22 +39,22 @@ func (r *RecipeRepository) Update(ctx *context.Context, doc *model.Recipe) (*mod
 	return r.Get(ctx, doc.ID)
 }
 
-func (r *RecipeRepository) Get(ctx *context.Context, id string) (*model.Recipe, error) {
+func (r *RecipeRepository) Get(ctx context.Context, id string) (*model.Recipe, error) {
 	var recipe *model.Recipe
-	r.collection.FindOne(*ctx, bson.D{{"_id", id}}).Decode(&recipe)
+	r.collection.FindOne(ctx, bson.D{{"_id", id}}).Decode(&recipe)
 
 	return recipe, nil
 }
 
-func (r *RecipeRepository) List(ctx *context.Context) ([]*model.Recipe, error) {
-	cursor, err := r.collection.Find(*ctx, bson.D{})
+func (r *RecipeRepository) List(ctx context.Context) ([]*model.Recipe, error) {
+	cursor, err := r.collection.Find(ctx, bson.D{})
 	if err != nil {
 		return nil, err
 	}
-	defer cursor.Close(*ctx)
+	defer cursor.Close(ctx)
 	var results []*model.Recipe
 
-	for cursor.Next(*ctx) {
+	for cursor.Next(ctx) {
 		var result *model.Recipe
 		err = cursor.Decode(&result)
 		if err != nil {
@@ -67,13 +67,13 @@ func (r *RecipeRepository) List(ctx *context.Context) ([]*model.Recipe, error) {
 	return results, nil
 }
 
-func (r *RecipeRepository) Delete(ctx *context.Context, id string) (*model.Recipe, error) {
+func (r *RecipeRepository) Delete(ctx context.Context, id string) (*model.Recipe, error) {
 	recipe, err := r.Get(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := r.collection.DeleteOne(*ctx, bson.D{{"_id", id}})
+	res, err := r.collection.DeleteOne(ctx, bson.D{{"_id", id}})
 	if err != nil || res.DeletedCount < 1 {
 		return nil, errors.New("Error deleting document")
 	}

@@ -17,22 +17,22 @@ func NewRecipeService(repository *db.RecipeRepository) *RecipeService {
 	}
 }
 
-func (r *RecipeService) Create(ctx *context.Context, recipe *model.CreateRecipeInput) (*model.Recipe, error) {
+func (r *RecipeService) Create(ctx context.Context, recipe *model.CreateRecipeInput) (*model.Recipe, error) {
 	return r.repository.Insert(ctx, model.NewRecipe(recipe))
 }
 
-func (r *RecipeService) List(ctx *context.Context) ([]*model.Recipe, error) {
+func (r *RecipeService) List(ctx context.Context) ([]*model.Recipe, error) {
 	return r.repository.List(ctx)
 }
 
-func (r *RecipeService) Get(ctx *context.Context, id string) (*model.Recipe, error) {
+func (r *RecipeService) Get(ctx context.Context, id string) (*model.Recipe, error) {
 	return r.repository.Get(ctx, id)
 }
 
-func (r *RecipeService) Update(ctx *context.Context, recipe *model.UpdateRecipeInput) (*model.Recipe, error) {
+func (r *RecipeService) Update(ctx context.Context, recipe *model.UpdateRecipeInput) (*model.Recipe, error) {
 	return r.repository.Update(ctx, model.NewRecipeFromUpdate(recipe))
 }
 
-func (r *RecipeService) Delete(ctx *context.Context, id string) (*model.Recipe, error) {
+func (r *RecipeService) Delete(ctx context.Context, id string) (*model.Recipe, error) {
 	return r.repository.Delete(ctx, id)
 }
