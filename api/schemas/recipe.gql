@@ -1,5 +1,3 @@
-scalar Time
-
 type Ingredient {
   name: String!
   quantity: Float!
@@ -46,12 +44,12 @@ input UpdateRecipeInput {
   steps: [CreateStepInput]
 }
 
-type Query {
+extend type Query {
   recipe(id: String!): Recipe!
   recipes: [Recipe!]!
 }
 
-type Mutation {
+extend type Mutation {
   createRecipe(input: CreateRecipeInput!): Recipe!
   updateRecipe(input: UpdateRecipeInput!): Recipe!
   deleteRecipe(id: String!): Recipe!

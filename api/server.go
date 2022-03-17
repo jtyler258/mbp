@@ -41,7 +41,9 @@ func main() {
 	}
 
 	srv := handler.NewDefaultServer(gqlgen.NewExecutableSchema(gqlgen.Config{Resolvers: &resolver.Resolver{
-		RecipeService: service.NewRecipeService(db.NewRecipeRepository(database)),
+		RecipeResolver: &resolver.RecipeResolver{
+			RecipeService: service.NewRecipeService(db.NewRecipeRepository(database)),
+		},
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/graphql"))

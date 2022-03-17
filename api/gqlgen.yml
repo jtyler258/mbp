@@ -1,6 +1,6 @@
 # Where are all the schema files located? globs are supported eg  src/**/*.graphqls
 schema:
-  - ./*.gql
+  - ./schemas/*.gql
 
 # Where should the generated server code go?
 exec:
@@ -22,6 +22,7 @@ resolver:
   layout: follow-schema
   dir: resolver
   package: resolver
+  filename_template: "{name}.resolvers.go"
 
 # Optional: turn on use ` + "`" + `gqlgen:"fieldName"` + "`" + ` tags in your models
 # struct_tag: json
@@ -46,6 +47,9 @@ models:
   Recipe:
     model:
       - github.com/jtyler258/mbp/api/model.Recipe
+  User:
+    model:
+      - github.com/jtyler258/mbp/api/model.User
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID

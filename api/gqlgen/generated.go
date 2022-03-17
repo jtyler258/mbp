@@ -305,9 +305,12 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "schema.gql", Input: `scalar Time
+	{Name: "schemas/base.gql", Input: `scalar Time
 
-type Ingredient {
+type Query
+type Mutation
+`, BuiltIn: false},
+	{Name: "schemas/recipe.gql", Input: `type Ingredient {
   name: String!
   quantity: Float!
   units: String!
@@ -353,12 +356,12 @@ input UpdateRecipeInput {
   steps: [CreateStepInput]
 }
 
-type Query {
+extend type Query {
   recipe(id: String!): Recipe!
   recipes: [Recipe!]!
 }
 
-type Mutation {
+extend type Mutation {
   createRecipe(input: CreateRecipeInput!): Recipe!
   updateRecipe(input: UpdateRecipeInput!): Recipe!
   deleteRecipe(id: String!): Recipe!

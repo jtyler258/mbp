@@ -7,5 +7,9 @@ import "github.com/jtyler258/mbp/api/service"
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct{
+	*RecipeResolver
+}
+
+type RecipeResolver struct {
 	RecipeService *service.RecipeService
 }
